@@ -4,7 +4,18 @@ from web3 import Web3
 import argparse
 from story_protocol_python_sdk import StoryClient
 
+def emotion_and_situation_to_picture():
+    pass
 
+def emotion_and_situation_to_text():
+    pass
+
+
+def emotion_to_situation():
+    pass
+
+def situation_to_emotion():
+    pass
 
 
 def main(args):
