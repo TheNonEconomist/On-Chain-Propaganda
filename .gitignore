@@ -166,3 +166,5 @@ cython_debug/
 DESIGN_DOC.txt
 
 experiments/*.png
+
+factory/context/*

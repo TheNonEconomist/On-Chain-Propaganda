@@ -1,0 +1,29 @@
+{
+    "rugged": [
+        "anger", "fear", "sadness", "disgust", "shame", "guilt", "regret", "frustration", "loneliness", "hopelessness", "anxiety" 
+    ], 
+    "drained": [
+        "anger", "fear", "sadness", "disgust", "shame", "guilt", "regret", "frustration", "loneliness", "hopelessness", "anxiety" 
+    ], 
+    "phished": [
+        "anger", "fear", "sadness", "disgust", "shame", "guilt", "regret", "frustration", "loneliness", "hopelessness", "anxiety" 
+    ], 
+    "fund_retrieval_unsuccessful": [
+
+    ],
+    "scammers_keep_contacting_you": [
+
+    ], 
+    "drained_again": [
+        
+    ],
+    "someone_else_retrieved_funds": [
+
+    ],
+    "fund_retrieval_successful": [
+        "Happiness", "Gratitude"
+    ], 
+    "scammer_got_caught" :[
+
+    ]
+}
