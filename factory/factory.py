@@ -11,6 +11,7 @@ def emotion_and_situation_to_text():
     pass
 
 
+
 def emotion_to_situation():
     pass
 
