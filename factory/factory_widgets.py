@@ -42,6 +42,20 @@ def add_text_alignment_check(
         return __add_text_to_image_path(image_path, text, position, font, font_scale, font_color, font_thickness)
 
 
+def __font_size_and_thickness_scaling(text, h, w, side_pad):
+    # For referencem at font_scale= 0.5, each letter takes about 10 pixels and seems to scale linearly?
+
+    # TODO: font size and thickness scaling based off picture size
+    w_usage = w
+    if type(side_pad) == int:
+        w_usage -= 2*side_pad
+    elif type(side_pad) == float:
+        w_usage = w_usage - int(2*w*side_pad)
+
+    pixel_width_usage_per_letter = w_usage//len(text)
+    font_scale = pixel_width_usage_per_letter/20
+    
+    return font_scale
 
 def __add_text_to_image_inline(image, text, position, font=cv2.FONT_ITALIC, font_scale=1, font_color=(255, 0, 0), font_thickness=50):
     # Add text to the image
@@ -107,12 +121,25 @@ def create_pad_and_text(
         font=font, font_scale=font_scale, font_color=font_color, font_thickness=font_thickness
         )
 
+def __opposite_RGB(color):
+    r, g, b = color
+    return 255 - r, 255 - g, 255 - b
 
-def add_padding_for_text(img, approach, original_to_pad_height_ratio):
-    pad_color = grab_background_color(img, approach)
-    h, w, d = img.shape
-    padding = create_pad(pad_color, h//original_to_pad_height_ratio, w, d)
-    return concatenate_images_inline(images=[padding, img, padding], horizontal=False)
+
+def create_pad_and_text_wif_font_scaling(
+        color, height, width, depth, 
+        text, text_position, alignment
+    ):
+    font_scale = __font_size_and_thickness_scaling(text, height, width, side_pad=0.1)
+    print(font_scale)
+    font_color = __opposite_RGB(color)
+    print(font_scale, font_color)
+    return create_pad_and_text(
+        color, height, width, depth, 
+        text, text_position, alignment,
+        font=cv2.FONT_ITALIC, font_scale=font_scale, font_color=font_color, font_thickness=1
+    )
+    
 
 
 # Find color, create pad, add text to pad, then concatenate
