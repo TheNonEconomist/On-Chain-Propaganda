@@ -167,4 +167,6 @@ DESIGN_DOC.txt
 
 experiments/*.png
 
+experiments/*.ipynb
+
 factory/context/*

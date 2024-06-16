@@ -21,7 +21,8 @@ def concatenate_images_inline(images, horizontal=True):
 
 
 def add_text_alignment_check(
-        image_path: list, text: str, 
+        image_path: list, image: np.array, inline: bool,
+        text: str, 
         position: tuple, alignment: str,
         font, font_scale: int, font_color: tuple, font_thickness: int
         ):
@@ -34,11 +35,21 @@ def add_text_alignment_check(
     elif alignment == "center":
         (text_w, text_h), _ = cv2.getTextSize(text, font, font_scale, font_thickness)
         position = (position[0]-text_w//2, position[1]+text_h//2)
-    
-    return __add_text_to_image(image_path, text, position, font, font_scale, font_color, font_thickness)
+
+    if inline is True:
+        return __add_text_to_image_inline(image, text, position, font, font_scale, font_color, font_thickness)
+    else:
+        return __add_text_to_image_path(image_path, text, position, font, font_scale, font_color, font_thickness)
 
 
-def __add_text_to_image(image_path, text, position, font=cv2.FONT_ITALIC, font_scale=1, font_color=(255, 0, 0), font_thickness=50):
+
+def __add_text_to_image_inline(image, text, position, font=cv2.FONT_ITALIC, font_scale=1, font_color=(255, 0, 0), font_thickness=50):
+    # Add text to the image
+    cv2.putText(image, text, position, font, font_scale, font_color, font_thickness)
+
+    return image
+
+def __add_text_to_image_path(image_path, text, position, font=cv2.FONT_ITALIC, font_scale=1, font_color=(255, 0, 0), font_thickness=50):
     # Read the image
     image = cv2.imread(image_path)
 
@@ -47,7 +58,7 @@ def __add_text_to_image(image_path, text, position, font=cv2.FONT_ITALIC, font_s
 
     return image
 
-def grab_background_color(image, approach):
+def grab_background_color(image, approach="corners_and_edges"):
     h, w, _ = image.shape
     majority_vote = dict()
     if approach == "corners_and_edges":
@@ -84,8 +95,24 @@ def grab_background_color(image, approach):
 def create_pad(color, height, width, depth=3):
     return np.ones((height, width, depth))*color
 
+def create_pad_and_text(
+        color, height, width, depth, 
+        text, text_position, alignment,
+        font, font_scale, font_color, font_thickness):
+    pad = create_pad(color, height, width, depth)
+    return add_text_alignment_check(
+        image_path=None, image=pad, inline=True,
+        text=text, 
+        position=text_position, alignment=alignment,
+        font=font, font_scale=font_scale, font_color=font_color, font_thickness=font_thickness
+        )
+
+
 def add_padding_for_text(img, approach, original_to_pad_height_ratio):
     pad_color = grab_background_color(img, approach)
     h, w, d = img.shape
     padding = create_pad(pad_color, h//original_to_pad_height_ratio, w, d)
     return concatenate_images_inline(images=[padding, img, padding], horizontal=False)
+
+
+# Find color, create pad, add text to pad, then concatenate
