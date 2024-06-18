@@ -171,5 +171,5 @@ experiments/*.ipynb
 
 factory/context/*
 
-*ipynb
-*png
+/factory/*.ipynb
+/experiments/*.png
