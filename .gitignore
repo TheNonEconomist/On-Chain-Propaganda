@@ -170,3 +170,6 @@ experiments/*.png
 experiments/*.ipynb
 
 factory/context/*
+
+*ipynb
+*png

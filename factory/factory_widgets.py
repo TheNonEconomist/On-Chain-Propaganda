@@ -57,17 +57,19 @@ def __font_size_and_thickness_scaling(text, h, w, side_pad):
     
     return font_scale
 
-def __add_text_to_image_inline(image, text, position, font=cv2.FONT_ITALIC, font_scale=1, font_color=(255, 0, 0), font_thickness=50):
+def __add_text_to_image_inline(image, text, position, font, font_scale, font_color, font_thickness):
     # Add text to the image
+    # print(text, position, font, font_scale, font_color, font_thickness)
     cv2.putText(image, text, position, font, font_scale, font_color, font_thickness)
 
     return image
 
-def __add_text_to_image_path(image_path, text, position, font=cv2.FONT_ITALIC, font_scale=1, font_color=(255, 0, 0), font_thickness=50):
+def __add_text_to_image_path(image_path, text, position, font, font_scale, font_color, font_thickness):
     # Read the image
     image = cv2.imread(image_path)
 
     # Add text to the image
+    # print(text, position, font, font_scale, font_color, font_thickness)
     cv2.putText(image, text, position, font, font_scale, font_color, font_thickness)
 
     return image
@@ -123,7 +125,7 @@ def create_pad_and_text(
 
 def __opposite_RGB(color):
     r, g, b = color
-    return 255 - r, 255 - g, 255 - b
+    return int(255 - r), int(255 - g), int(255 - b)
 
 
 def create_pad_and_text_wif_font_scaling(
@@ -131,9 +133,7 @@ def create_pad_and_text_wif_font_scaling(
         text, text_position, alignment
     ):
     font_scale = __font_size_and_thickness_scaling(text, height, width, side_pad=0.1)
-    print(font_scale)
     font_color = __opposite_RGB(color)
-    print(font_scale, font_color)
     return create_pad_and_text(
         color, height, width, depth, 
         text, text_position, alignment,
