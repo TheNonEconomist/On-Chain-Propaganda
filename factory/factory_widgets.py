@@ -130,16 +130,32 @@ def __opposite_RGB(color):
 
 def create_pad_and_text_wif_font_scaling(
         color, height, width, depth, 
-        text, text_position, alignment
+        text, text_position, alignment, font
     ):
     font_scale = __font_size_and_thickness_scaling(text, height, width, side_pad=0.1)
     font_color = __opposite_RGB(color)
     return create_pad_and_text(
         color, height, width, depth, 
         text, text_position, alignment,
-        font=cv2.FONT_ITALIC, font_scale=font_scale, font_color=font_color, font_thickness=1
+        font=font, font_scale=font_scale, font_color=font_color, font_thickness=1
     )
     
 
+### Replacing background
+def separate_mask_from_image(image_path, pipe):
+    pillow_mask = pipe(image_path, return_mask = True) # outputs a pillow mask
+    pillow_image = pipe(image_path) # applies mask on input and returns a pillow image
+    return np.asarray(pillow_mask.convert("RGB")), np.asarray(pillow_image.convert("RGB"))
 
-# Find color, create pad, add text to pad, then concatenate
+
+def change_background_color(mask, image, new_background_color):
+    # Convert all non-background space in Mask to W
+    
+    mask2 = np.asarray(mask)/255
+    mask2 = (np.round(mask2)*255).astype(np.uint8)
+    original_background_color = grab_background_color(mask2)
+    new_background = ((mask2 == original_background_color)*new_background_color).astype(np.uint8)
+
+    result = cv2.add(new_background, image)
+    
+    return result
