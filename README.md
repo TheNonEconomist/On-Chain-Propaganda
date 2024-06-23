@@ -2,10 +2,8 @@
 
 ## What for?
 To propagandise the on-chain world for world domination. 
-Just kidding, it's really to distribute bunch of educational and fun material to various on-chain community members.
+Just kidding, it's really to distribute bunch of educational and fun materials to communities.
 
-### Examples?
-Could be educational material for on-chain security practices for retail, could be fun memes that create engagement amongst community members, could be anything you can imagine tbh!
 
 ## Why?
 Cuz so much of retail education, engagement, and community mgmt are actually boilerplate tasks that could do well from some automation. If it's fun and educational, even better.
