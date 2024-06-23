@@ -143,6 +143,10 @@ def create_pad_and_text_wif_font_scaling(
 
 ### Replacing background
 def separate_mask_from_image(image_path, pipe):
+    """
+    image_path: 
+    pipe: pipeline for hugging face interface - should input image background separation model
+    """
     pillow_mask = pipe(image_path, return_mask = True) # outputs a pillow mask
     pillow_image = pipe(image_path) # applies mask on input and returns a pillow image
     return np.asarray(pillow_mask.convert("RGB")), np.asarray(pillow_image.convert("RGB"))
